@@ -25,6 +25,10 @@ const game = {
     ['o', 'o', 'o', 'x', 'x', 'o', 'o', 'o', 'o', 'x'],
     ['o', 'o', 'o', 'x', 'x', 'o', 'o', 'o', 'x', 'x'],
   ],
+  moveLeft() {},
+  moveRight() {},
+  moveDown() {},
+  rotateTetramino() {},
 };
 
 // Отрисовка

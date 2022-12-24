@@ -70,7 +70,7 @@ const game = {
 
     for (let i = 0; i < tetramino.length; i++) {
       for (let j = 0; j < tetramino[i].length; j++) {
-        if (!this.area[y + i][x + j]) {
+        if (!this.area[y + i] || !this.area[y + i][x + j]) {
           return false;
         }
       }

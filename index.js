@@ -70,6 +70,8 @@ const game = {
   moveDown() {
     if (this.checkOutPosition(this.activeTetramino.x, this.activeTetramino.y + 1)) {
       this.activeTetramino.y += 1;
+    } else {
+      this.stopMove();
     }
   },
   rotateTetramino() {
@@ -93,7 +95,7 @@ const game = {
     for (let i = 0; i < block.length; i++) {
       const row = block[i];
       for (let j = 0; j < row.length; j++) {
-        if (row[j] === 'x') {
+        if (row[j] !== 'o') {
           area[y + i][x + j] = block[i][j];
         }
       }
@@ -108,12 +110,27 @@ const game = {
       const row = tetramino[i];
       for (let j = 0; j < row.length; j++) {
         if (row[j] === 'o') continue;
-        if (!this.area[y + i] || !this.area[y + i][x + j] || this.area[y + i][x + j] === 'x') {
+        if (!this.area[y + i] || !this.area[y + i][x + j] || this.area[y + i][x + j] !== 'o') {
           return false;
         }
       }
     }
     return true;
+  },
+  stopMove() {
+    const { x, y, block } = this.activeTetramino;
+
+    for (let i = 0; i < block.length; i++) {
+      const row = block[i];
+      for (let j = 0; j < row.length; j++) {
+        if (row[j] !== 'o') {
+          this.area[y + i][x + j] = block[i][j];
+        }
+      }
+    }
+  },
+  startGame() {
+    this.gameReady = true;
   },
 };
 
@@ -136,7 +153,7 @@ const showArea = (area) => {
 
     for (let x = 0; x < line.length; x++) {
       const block = line[x];
-      if (block === 'x') {
+      if (block !== 'o') {
         context.fillStyle = 'purple';
         context.strokeStyle = 'white';
         context.fillRect(x * SIZE_BLOCK, y * SIZE_BLOCK, SIZE_BLOCK, SIZE_BLOCK);
@@ -149,24 +166,29 @@ const showArea = (area) => {
 window.addEventListener('keydown', (event) => {
   const key = event.code;
 
-  switch (key) {
-    case 'ArrowLeft':
-      game.moveLeft();
-      showArea(game.viewArea);
-      break;
-    case 'ArrowRight':
-      game.moveRight();
-      showArea(game.viewArea);
-      break;
-    case 'ArrowDown':
-      game.moveDown();
-      showArea(game.viewArea);
-      break;
-    case 'ArrowUp':
-      game.rotateTetramino();
-      showArea(game.viewArea);
-      break;
+  if (key === 'Enter') {
+    game.startGame();
+    showArea(game.viewArea);
+  }
+
+  if (game.gameReady) {
+    switch (key) {
+      case 'ArrowLeft':
+        game.moveLeft();
+        showArea(game.viewArea);
+        break;
+      case 'ArrowRight':
+        game.moveRight();
+        showArea(game.viewArea);
+        break;
+      case 'ArrowDown':
+        game.moveDown();
+        showArea(game.viewArea);
+        break;
+      case 'ArrowUp':
+        game.rotateTetramino();
+        showArea(game.viewArea);
+        break;
+    }
   }
 });
-
-showArea(game.viewArea);

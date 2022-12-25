@@ -22,8 +22,8 @@ const game = {
     ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
     ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
     ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x'],
-    ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x'],
-    ['o', 'o', 'x', 'x', 'x', 'x', 'o', 'o', 'x', 'x'],
+    ['o', 'o', 'o', 'x', 'x', 'o', 'o', 'o', 'o', 'x'],
+    ['o', 'o', 'o', 'x', 'x', 'o', 'o', 'o', 'x', 'x'],
   ],
   activeTetramino: {
     x: 3,
@@ -35,47 +35,30 @@ const game = {
     ],
   },
   moveLeft() {
-    if (this.checkOutPosition(this.activeTetramino.x - 1, this.activeTetramino.y)) {
-      this.activeTetramino.x -= 1;
-    }
+    this.activeTetramino.x -= 1;
   },
   moveRight() {
-    if (this.checkOutPosition(this.activeTetramino.x + 1, this.activeTetramino.y)) {
-      this.activeTetramino.x += 1;
-    }
+    this.activeTetramino.x += 1;
   },
   moveDown() {
-    if (this.checkOutPosition(this.activeTetramino.x, this.activeTetramino.y + 1)) {
-      this.activeTetramino.y += 1;
-    }
+    this.activeTetramino.y += 1;
   },
   rotateTetramino() {},
   get viewArea() {
     const area = JSON.parse(JSON.stringify(this.area));
-    const { x, y, block: tetramino } = this.activeTetramino;
+    const { x, y, block } = this.activeTetramino;
 
-    for (let i = 0; i < tetramino.length; i++) {
-      const row = tetramino[i];
+    for (let i = 0; i < block.length; i++) {
+      const row = block[i];
+
       for (let j = 0; j < row.length; j++) {
         if (row[j] === 'x') {
-          area[y + i][x + j] = tetramino[i][j];
+          area[y + i][x + j] = block[i][j];
         }
       }
     }
 
     return area;
-  },
-  checkOutPosition(x, y) {
-    const tetramino = this.activeTetramino.block;
-
-    for (let i = 0; i < tetramino.length; i++) {
-      for (let j = 0; j < tetramino[i].length; j++) {
-        if (!this.area[y + i] || !this.area[y + i][x + j]) {
-          return false;
-        }
-      }
-      return true;
-    }
   },
 };
 
@@ -91,8 +74,6 @@ canvas.height = SIZE_BLOCK * 20;
 const context = canvas.getContext('2d');
 
 const showArea = (area) => {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-
   for (let y = 0; y < area.length; y++) {
     const line = area[y];
 

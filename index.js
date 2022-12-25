@@ -57,6 +57,7 @@ const game = {
       ],
     ],
   },
+  gameReady: false,
   moveLeft() {
     if (this.checkOutPosition(this.activeTetramino.x - 1, this.activeTetramino.y)) {
       this.activeTetramino.x -= 1;

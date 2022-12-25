@@ -33,6 +33,29 @@ const game = {
       ['o', 'x', 'x'],
       ['x', 'x', 'o'],
     ],
+    rotationIndex: 0,
+    rotation: [
+      [
+        ['o', 'o', 'o'],
+        ['o', 'x', 'x'],
+        ['x', 'x', 'o'],
+      ],
+      [
+        ['o', 'x', 'o'],
+        ['o', 'x', 'x'],
+        ['o', 'o', 'x'],
+      ],
+      [
+        ['o', 'o', 'o'],
+        ['x', 'x', 'o'],
+        ['o', 'x', 'x'],
+      ],
+      [
+        ['o', 'o', 'x'],
+        ['o', 'x', 'x'],
+        ['o', 'x', 'o'],
+      ],
+    ],
   },
   moveLeft() {
     if (this.checkOutPosition(this.activeTetramino.x - 1, this.activeTetramino.y)) {
@@ -49,7 +72,20 @@ const game = {
       this.activeTetramino.y += 1;
     }
   },
-  rotateTetramino() {},
+  rotateTetramino() {
+    this.activeTetramino.rotationIndex =
+      this.activeTetramino.rotationIndex < 3 ? ++this.activeTetramino.rotationIndex : 0;
+
+    this.activeTetramino.block = this.activeTetramino.rotation[this.activeTetramino.rotationIndex];
+
+    if (!this.checkOutPosition(this.activeTetramino.x, this.activeTetramino.y)) {
+      this.activeTetramino.rotationIndex =
+        this.activeTetramino.rotationIndex > 0 ? --this.activeTetramino.rotationIndex : 3;
+
+      this.activeTetramino.block =
+        this.activeTetramino.rotation[this.activeTetramino.rotationIndex];
+    }
+  },
   get viewArea() {
     const area = JSON.parse(JSON.stringify(this.area));
     const { x, y, block } = this.activeTetramino;

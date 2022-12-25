@@ -35,13 +35,19 @@ const game = {
     ],
   },
   moveLeft() {
-    this.activeTetramino.x -= 1;
+    if (this.checkOutPosition(this.activeTetramino.x - 1, this.activeTetramino.y)) {
+      this.activeTetramino.x -= 1;
+    }
   },
   moveRight() {
-    this.activeTetramino.x += 1;
+    if (this.checkOutPosition(this.activeTetramino.x + 1, this.activeTetramino.y)) {
+      this.activeTetramino.x += 1;
+    }
   },
   moveDown() {
-    this.activeTetramino.y += 1;
+    if (this.checkOutPosition(this.activeTetramino.x, this.activeTetramino.y + 1)) {
+      this.activeTetramino.y += 1;
+    }
   },
   rotateTetramino() {},
   get viewArea() {
@@ -50,7 +56,6 @@ const game = {
 
     for (let i = 0; i < block.length; i++) {
       const row = block[i];
-
       for (let j = 0; j < row.length; j++) {
         if (row[j] === 'x') {
           area[y + i][x + j] = block[i][j];
@@ -59,6 +64,20 @@ const game = {
     }
 
     return area;
+  },
+  checkOutPosition(x, y) {
+    const tetramino = this.activeTetramino.block;
+
+    for (let i = 0; i < tetramino.length; i++) {
+      const row = tetramino[i];
+      for (let j = 0; j < row.length; j++) {
+        if (row[j] === 'o') continue;
+        if (!this.area[y + i] || !this.area[y + i][x + j] || this.area[y + i][x + j] === 'x') {
+          return false;
+        }
+      }
+    }
+    return true;
   },
 };
 
@@ -74,6 +93,8 @@ canvas.height = SIZE_BLOCK * 20;
 const context = canvas.getContext('2d');
 
 const showArea = (area) => {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
   for (let y = 0; y < area.length; y++) {
     const line = area[y];
 

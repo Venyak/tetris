@@ -45,7 +45,6 @@ export class Game {
     this.activeTetramino = this.nextTetramino;
     this.nextTetramino = this.createTetramino();
   }
-  gameReady = false;
   moveLeft() {
     if (this.checkOutPosition(this.activeTetramino.x - 1, this.activeTetramino.y)) {
       this.activeTetramino.x -= 1;
@@ -143,8 +142,5 @@ export class Game {
       this.area.splice(i, 1);
       this.area.unshift(Array(COLUMNS).fill('o'));
     });
-  }
-  startGame() {
-    this.gameReady = true;
   }
 }

@@ -35,7 +35,7 @@ export class View {
       for (let x = 0; x < line.length; x++) {
         const block = line[x];
         if (block !== 'o') {
-          this.context.fillStyle = colors[block];
+          this.context.fillStyle = this.colors[block];
           this.context.strokeStyle = 'white';
           this.context.fillRect(x * SIZE_BLOCK, y * SIZE_BLOCK, SIZE_BLOCK, SIZE_BLOCK);
           this.context.strokeRect(x * SIZE_BLOCK, y * SIZE_BLOCK, SIZE_BLOCK, SIZE_BLOCK);

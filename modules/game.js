@@ -1,4 +1,5 @@
 import { tetraminoes } from './tetrominoes.js';
+import { ROWS, COLUMNS } from '../index.js';
 
 export class Game {
   area = [
@@ -19,45 +20,30 @@ export class Game {
     ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
     ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
     ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
-    ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x'],
-    ['o', 'o', 'o', 'x', 'x', 'o', 'o', 'o', 'o', 'x'],
-    ['o', 'o', 'o', 'x', 'x', 'o', 'o', 'o', 'x', 'x'],
+    ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
+    ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
+    ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
   ];
-  activeTetramino = {
-    x: 3,
-    y: 0,
-    block: [
-      ['o', 'o', 'o'],
-      ['o', 'x', 'x'],
-      ['x', 'x', 'o'],
-    ],
-    rotationIndex: 0,
-    rotation: [
-      [
-        ['o', 'o', 'o'],
-        ['o', 'x', 'x'],
-        ['x', 'x', 'o'],
-      ],
-      [
-        ['o', 'x', 'o'],
-        ['o', 'x', 'x'],
-        ['o', 'o', 'x'],
-      ],
-      [
-        ['o', 'o', 'o'],
-        ['x', 'x', 'o'],
-        ['o', 'x', 'x'],
-      ],
-      [
-        ['o', 'o', 'x'],
-        ['o', 'x', 'x'],
-        ['o', 'x', 'o'],
-      ],
-    ],
-  };
+  activeTetramino = this.createTetramino();
+  nextTetramino = this.createTetramino();
   createTetramino() {
     const keys = Object.keys(tetraminoes);
     const letterTetramino = keys[Math.floor(Math.random() * keys.length)];
+    const rotation = tetraminoes[letterTetramino];
+    const rotationIndex = Math.floor(Math.random() * rotation.length);
+    const block = rotation[rotationIndex];
+
+    return {
+      block,
+      rotation,
+      rotationIndex,
+      x: 3,
+      y: 0,
+    };
+  }
+  changeTetramino() {
+    this.activeTetramino = this.nextTetramino;
+    this.nextTetramino = this.createTetramino();
   }
   gameReady = false;
   moveLeft() {
@@ -131,6 +117,32 @@ export class Game {
         }
       }
     }
+    this.changeTetramino();
+    this.clearRow();
+  }
+  clearRow() {
+    const rows = [];
+
+    for (let i = ROWS - 1; i >= 0; i--) {
+      let countBlock = 0;
+
+      for (let j = 0; j < COLUMNS; j++) {
+        if (this.area[i][j] !== 'o') {
+          countBlock += 1;
+        }
+      }
+
+      if (!countBlock) break;
+
+      if (countBlock === COLUMNS) {
+        rows.unshift(i);
+      }
+    }
+
+    rows.forEach((i) => {
+      this.area.splice(i, 1);
+      this.area.unshift(Array(COLUMNS).fill('o'));
+    });
   }
   startGame() {
     this.gameReady = true;

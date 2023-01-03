@@ -4,13 +4,20 @@ const game = new Game();
 game.createTetramino();
 
 const SIZE_BLOCK = 30;
-const COLUMNS = 10;
-const ROWS = 20;
-
-// Механика игры
+export const COLUMNS = 10;
+export const ROWS = 20;
 
 // Отрисовка
 const container = document.querySelector('.container');
+const colors = {
+  J: 'IndianRed',
+  I: 'YellowGreen',
+  O: 'Khaki',
+  L: 'RoyalBlue',
+  2: 'MediumOrchid',
+  T: 'LightSalmon',
+  S: 'DarkSlateGray',
+};
 
 const canvas = document.createElement('canvas');
 container.append(canvas);
@@ -29,7 +36,7 @@ const showArea = (area) => {
     for (let x = 0; x < line.length; x++) {
       const block = line[x];
       if (block !== 'o') {
-        context.fillStyle = 'purple';
+        context.fillStyle = colors[block];
         context.strokeStyle = 'white';
         context.fillRect(x * SIZE_BLOCK, y * SIZE_BLOCK, SIZE_BLOCK, SIZE_BLOCK);
         context.strokeRect(x * SIZE_BLOCK, y * SIZE_BLOCK, SIZE_BLOCK, SIZE_BLOCK);

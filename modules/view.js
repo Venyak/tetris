@@ -24,10 +24,10 @@ export class View {
     this.canvas.height = SIZE_BLOCK * ROWS;
   }
 
-  context = canvas.getContext('2d');
+  context = this.canvas.getContext('2d');
 
   showArea(area) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     for (let y = 0; y < area.length; y++) {
       const line = area[y];
@@ -35,10 +35,10 @@ export class View {
       for (let x = 0; x < line.length; x++) {
         const block = line[x];
         if (block !== 'o') {
-          context.fillStyle = colors[block];
-          context.strokeStyle = 'white';
-          context.fillRect(x * SIZE_BLOCK, y * SIZE_BLOCK, SIZE_BLOCK, SIZE_BLOCK);
-          context.strokeRect(x * SIZE_BLOCK, y * SIZE_BLOCK, SIZE_BLOCK, SIZE_BLOCK);
+          this.context.fillStyle = colors[block];
+          this.context.strokeStyle = 'white';
+          this.context.fillRect(x * SIZE_BLOCK, y * SIZE_BLOCK, SIZE_BLOCK, SIZE_BLOCK);
+          this.context.strokeRect(x * SIZE_BLOCK, y * SIZE_BLOCK, SIZE_BLOCK, SIZE_BLOCK);
         }
       }
     }

@@ -1,6 +1,8 @@
 import { Game } from './modules/game.js';
+import { View } from './modules/view.js';
 
 const game = new Game();
+const view = new View();
 game.createTetramino();
 
 export const SIZE_BLOCK = 30;
@@ -15,26 +17,26 @@ window.addEventListener('keydown', (event) => {
 
   if (key === 'Enter') {
     game.startGame();
-    showArea(game.viewArea);
+    view.showArea(game.viewArea);
   }
 
   if (game.gameReady) {
     switch (key) {
       case 'ArrowLeft':
         game.moveLeft();
-        showArea(game.viewArea);
+        view.showArea(game.viewArea);
         break;
       case 'ArrowRight':
         game.moveRight();
-        showArea(game.viewArea);
+        view.showArea(game.viewArea);
         break;
       case 'ArrowDown':
         game.moveDown();
-        showArea(game.viewArea);
+        view.showArea(game.viewArea);
         break;
       case 'ArrowUp':
         game.rotateTetramino();
-        showArea(game.viewArea);
+        view.showArea(game.viewArea);
         break;
     }
   }

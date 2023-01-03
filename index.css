@@ -12,6 +12,15 @@ h1 span {
 	font-weight: 900;
 }
 
+.start-wrapper {
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+  
+}
+
 .container {
 	width: 500px;
 	margin: 0 auto;
@@ -21,4 +30,15 @@ h1 span {
 	border: 2px solid black;
 	border-width: 0 2px 3px 2px;
 	display: block;
+}
+
+.preview-button {
+  grid-column: 2 / 3;
+  font-family: 'tetris', sans-serif;
+  color: rgb(0, 0, 0);
+  border: 2px solid rgb(0, 0, 0);
+  padding: 40px 70px;
+  font-size: 30px;
+  text-align: center;
+  margin: 0;
 }

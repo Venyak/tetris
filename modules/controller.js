@@ -1,3 +1,5 @@
+import { startWrapper } from '../index.js';
+
 export class Controller {
   constructor(game, view) {
     this.game = game;
@@ -9,6 +11,7 @@ export class Controller {
       if (event.code === codeKey) {
         this.view.init();
         this.start();
+        startWrapper.remove();
       }
     });
   }

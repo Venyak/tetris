@@ -16,22 +16,68 @@ export class View {
     T: 'LightSalmon',
     S: 'DarkSlateGray',
   };
+
   canvas = document.createElement('canvas');
   context = this.canvas.getContext('2d');
 
   preview() {
     this.container.textContent = '';
-    const prev = document.createElement('h3');
+    const prev = document.createElement('div');
     prev.classList.add('preview-button');
     startWrapper.append(prev);
-    prev.insertAdjacentText('afterbegin', 'press enter');
+    prev.insertAdjacentText('afterbegin', 'Press ENTER');
   }
 
   init() {
+    this.container.textContent = '';
+    this.canvas.style.gridArea = 'game';
     this.container.append(this.canvas);
     this.canvas.classList.add('game-area');
     this.canvas.width = SIZE_BLOCK * COLUMNS;
     this.canvas.height = SIZE_BLOCK * ROWS;
+  }
+
+  createBlockScore() {
+    const scoreBlock = document.createElement('div');
+    scoreBlock.style.cssText = `
+			border: 2px solid black;
+			font-size: 20px;
+			text-align: center;
+			grid-area: score;
+			padding: 20px;
+		`;
+
+    const linesElem = document.createElement('p');
+    const scoreElem = document.createElement('p');
+    const levelElem = document.createElement('p');
+    const recordElem = document.createElement('p');
+
+    scoreBlock.append(linesElem, scoreElem, levelElem, recordElem);
+
+    this.container.append(scoreBlock);
+  }
+
+  createBlockNextTetramino() {
+    const tetraminoBlock = document.createElement('div');
+    tetraminoBlock.style.cssText = `
+			border: 2px solid black;
+			width: ${SIZE_BLOCK * 4}px;
+			height: ${SIZE_BLOCK * 4}px;
+			font-size: 20px;
+			text-align: center;
+			grid-area: next;
+			padding: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		`;
+
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    tetraminoBlock.append(canvas);
+
+    this.container.append(tetraminoBlock);
   }
 
   showArea(area) {

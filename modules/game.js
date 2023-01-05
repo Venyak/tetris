@@ -1,11 +1,11 @@
-import { tetraminoes } from './tetrominoes.js';
+import { tetraminoes } from './tetraminoes.js';
 import { ROWS, COLUMNS } from '../index.js';
 
 export class Game {
   score = 0;
   lines = 0;
   level = 1;
-  record = localStorage.getItem('tetris-record') || 0;
+  highScore = localStorage.getItem('tetris-highScore') || 0;
 
   points = [0, 100, 300, 700, 1500];
 
@@ -127,7 +127,9 @@ export class Game {
       }
     }
     this.changeTetramino();
-    this.clearRow();
+    const countRow = this.clearRow();
+    this.calcScore(countRow);
+    this.updatePanels();
     this.gameOver = !this.checkOutPosition(this.activeTetramino.x, this.activeTetramino.y);
   }
   clearRow() {
@@ -153,5 +155,28 @@ export class Game {
       this.area.splice(i, 1);
       this.area.unshift(Array(COLUMNS).fill('o'));
     });
+
+    return rows.length;
+  }
+
+  calcScore(lines) {
+    this.score += this.points[lines];
+    this.lines += lines;
+    this.level = Math.floor(this.lines / 10) + 1;
+
+    if (this.score > this.highScore) {
+      this.highScore = this.score;
+      localStorage.setItem('tetris-highScore', this.score);
+    }
+  }
+
+  createUpdatePanels(showScore, showNextTetramino) {
+    showScore(this.lines, this.score, this.level, this.highScore);
+    showNextTetramino(this.nextTetramino.block);
+
+    this.updatePanels = () => {
+      showScore(this.lines, this.score, this.level, this.highScore);
+      showNextTetramino(this.nextTetramino.block);
+    };
   }
 }

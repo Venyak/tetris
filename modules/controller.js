@@ -1,4 +1,4 @@
-import { startWrapper } from '../index.js';
+import { startWrapper, theme } from '../index.js';
 
 export class Controller {
   constructor(game, view) {
@@ -12,6 +12,8 @@ export class Controller {
         this.view.init();
         this.start();
         startWrapper.remove();
+        theme.volume = 0.03;
+        theme.play();
       }
     });
   }

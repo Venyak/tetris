@@ -1,5 +1,5 @@
 import { tetraminoes } from './tetraminoes.js';
-import { ROWS, COLUMNS } from '../index.js';
+import { ROWS, COLUMNS, stopMoveSFX, clearRowSFX, theme, gameOverSFX } from '../index.js';
 
 export class Game {
   score = 0;
@@ -65,11 +65,17 @@ export class Game {
     }
   }
   moveDown() {
-    if (this.gameOver) return;
+    if (this.gameOver) {
+      theme.currentTime = 0;
+      theme.pause();
+      gameOverSFX.play();
+      return;
+    }
     if (this.checkOutPosition(this.activeTetramino.x, this.activeTetramino.y + 1)) {
       this.activeTetramino.y += 1;
     } else {
       this.stopMove();
+      stopMoveSFX.play();
     }
   }
   rotateTetramino() {
@@ -148,6 +154,7 @@ export class Game {
 
       if (countBlock === COLUMNS) {
         rows.unshift(i);
+        clearRowSFX.play();
       }
     }
 

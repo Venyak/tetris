@@ -43,7 +43,7 @@ export class View {
       flex-direction: column;
       justify-content: space-between;
 			justify-self: start;
-			border: 2px solid black;
+			border: 2px solid #003566;
 			font-size: 20px;
 			text-align: center;
 			grid-area: score;
@@ -72,7 +72,7 @@ export class View {
   createBlockNextTetramino() {
     const tetraminoBlock = document.createElement('div');
     tetraminoBlock.style.cssText = `
-			border: 2px solid black;
+			border: 2px solid #003566;
 			width: ${SIZE_BLOCK * 4}px;
 			height: ${SIZE_BLOCK * 4}px;
 			font-size: 20px;

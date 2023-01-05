@@ -1,5 +1,13 @@
 import { tetraminoes } from './tetraminoes.js';
-import { ROWS, COLUMNS, stopMoveSFX, clearRowSFX, theme, gameOverSFX } from '../index.js';
+import {
+  ROWS,
+  COLUMNS,
+  stopMoveSFX,
+  clearRowSFX,
+  theme,
+  gameOverSFX,
+  highScoreSFX,
+} from '../index.js';
 
 export class Game {
   score = 0;
@@ -174,6 +182,7 @@ export class Game {
     if (this.score > this.highScore) {
       this.highScore = this.score;
       localStorage.setItem('tetris-highScore', this.score);
+      highScoreSFX.play();
     }
   }
 

@@ -10,6 +10,7 @@ export const theme = document.querySelector('.music');
 export const stopMoveSFX = document.querySelector('.stop-move');
 export const clearRowSFX = document.querySelector('.clear-row');
 export const gameOverSFX = document.querySelector('.game-over');
+export const highScoreSFX = document.querySelector('.high-score');
 
 const game = new Game();
 const view = new View(document.querySelector('.container'));
